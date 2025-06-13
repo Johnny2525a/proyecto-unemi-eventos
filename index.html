@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UniEventos - Modal de Inscripción</title>
+    <title>UniEventos - Cursos de IA</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,41 +12,42 @@
     
     <style>
         body { font-family: 'Inter', sans-serif; }
-        /* Estilos para transiciones suaves en el modal */
         #modal { transition: opacity 0.3s ease-in-out; }
         .modal-content { transition: transform 0.3s ease-in-out; }
     </style>
+
+    <!-- Google tag (gtag.js) - CÓDIGO INSTALADO -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RQ1NZX479J"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'G-RQ1NZX479J');
+    </script>
+    
 </head>
 <body class="bg-gray-900 text-white">
 
-    <!-- Contenedor Principal -->
+    <!-- El resto del cuerpo de la página no cambia... -->
     <div class="container mx-auto px-4 py-8">
         <header class="text-center mb-10">
-            <h1 class="text-4xl md:text-5xl font-bold text-cyan-400">UNEMI CURSOS IA </h1>
+            <h1 class="text-4xl md:text-5xl font-bold text-cyan-400">UniEventos</h1>
             <p class="text-lg text-gray-400 mt-2">Tu portal de eventos universitarios.</p>
         </header>
 
         <main>
             <h2 class="text-3xl font-semibold mb-6 border-l-4 border-cyan-400 pl-4">Cursos de Inteligencia Artificial</h2>
-            <!-- CAMBIO: Ahora usamos 'lg:grid-cols-2' para forzar 2 columnas en pantallas grandes -->
             <div id="event-list" class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- Las tarjetas se insertarán aquí con JavaScript -->
             </div>
         </main>
     </div>
 
-    <!-- Elemento para la Notificación (sin cambios) -->
-    <div id="notification" class="hidden fixed bottom-5 left-1/2 -translate-x-1/2 bg-green-500 text-white py-3 px-6 rounded-lg shadow-xl"></div>
-
-    <!-- NOVEDAD: ESTRUCTURA DEL MODAL DE INSCRIPCIÓN -->
-    <!-- Por defecto está oculto ('hidden') -->
     <div id="modal" class="hidden fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50">
         <div class="modal-content bg-gray-800 rounded-lg shadow-2xl p-8 w-full max-w-md transform scale-95">
-            <!-- Encabezado del Modal -->
             <h3 class="text-2xl font-bold text-cyan-300 mb-2">Inscripción al curso</h3>
             <p id="modal-course-title" class="text-gray-400 mb-6"></p>
-
-            <!-- Formulario de Inscripción -->
             <form id="enrollment-form">
                 <div class="mb-4">
                     <label for="name" class="block text-gray-300 mb-2">Nombre y Apellido</label>
@@ -56,14 +57,10 @@
                     <label for="email" class="block text-gray-300 mb-2">Correo Electrónico</label>
                     <input type="email" id="email" name="email" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500" required>
                 </div>
-
-                <!-- Información de Precio y Prueba -->
                 <div class="bg-gray-700 p-4 rounded-lg mb-6 text-center">
                     <p class="text-lg">Precio: <span class="font-bold text-green-400">$19.99/mes</span></p>
                     <p class="text-sm text-gray-400 mt-1">¡Comienza con una <span class="font-semibold text-white">prueba gratuita de 7 días</span>!</p>
                 </div>
-
-                <!-- Botones de Acción del Modal -->
                 <div class="flex justify-end space-x-4">
                     <button type="button" id="cancel-button" class="px-6 py-2 rounded-lg text-gray-300 hover:bg-gray-600 transition-colors">Cancelar</button>
                     <button type="submit" class="px-6 py-2 bg-cyan-500 text-white font-bold rounded-lg hover:bg-cyan-600 transition-colors">Confirmar Inscripción</button>
@@ -71,10 +68,7 @@
             </form>
         </div>
     </div>
-
-    <!-- Lógica de la Aplicación -->
     <script>
-        // --- DATOS (sin cambios) ---
         const datosDeEventos = [
             { id: 1, titulo: "Fundamentos de la IA", descripcion: "Explora los conceptos clave de la IA, desde Machine Learning hasta redes neuronales.", categoria: "IA / Machine Learning" },
             { id: 2, titulo: "IA Aplicada a Negocios", descripcion: "Descubre cómo la IA está transformando industrias y cómo puedes aplicarla.", categoria: "IA / Negocios" },
@@ -86,23 +80,16 @@
             { id: 8, titulo: "El Futuro del Trabajo con IA Generativa", descripcion: "Seminario sobre cómo herramientas como Midjourney y Copilot cambiarán las profesiones.", categoria: "IA / Futuro" }
         ];
 
-        // --- REFERENCIAS A ELEMENTOS DEL DOM ---
         const eventListContainer = document.getElementById('event-list');
         const modal = document.getElementById('modal');
         const modalCourseTitle = document.getElementById('modal-course-title');
         const cancelButton = document.getElementById('cancel-button');
         const enrollmentForm = document.getElementById('enrollment-form');
-        const notification = document.getElementById('notification');
-
-        // Variable para guardar el botón que fue presionado
         let currentEnrollButton = null;
-
-        // --- FUNCIONES ---
 
         function mostrarEventos() {
             eventListContainer.innerHTML = '';
             datosDeEventos.forEach(evento => {
-                // He quitado la fecha y hora para simplificar la tarjeta
                 const tarjetaHTML = `
                     <div class="bg-gray-800 rounded-lg shadow-lg p-6 flex flex-col hover:shadow-cyan-500/20 transition-shadow">
                         <div class="flex-grow">
@@ -121,67 +108,50 @@
             activarBotonesDeInscripcion();
         }
         
-        // CAMBIO: Ahora el botón abre el modal
         function activarBotonesDeInscripcion() {
             document.querySelectorAll('.enroll-button').forEach(button => {
                 button.addEventListener('click', (e) => {
                     const title = e.currentTarget.dataset.eventTitle;
-                    currentEnrollButton = e.currentTarget; // Guardamos el botón presionado
+                    currentEnrollButton = e.currentTarget;
                     abrirModal(title);
                 });
             });
         }
         
-        // NOVEDAD: Funciones para controlar el modal
         function abrirModal(title) {
             modalCourseTitle.textContent = title;
             modal.classList.remove('hidden');
-            setTimeout(() => modal.querySelector('.modal-content').classList.remove('scale-95'), 10); // Pequeña animación
+            setTimeout(() => modal.querySelector('.modal-content').classList.remove('scale-95'), 10);
         }
 
         function cerrarModal() {
             modal.querySelector('.modal-content').classList.add('scale-95');
             setTimeout(() => {
                 modal.classList.add('hidden');
-                enrollmentForm.reset(); // Reseteamos el formulario
+                enrollmentForm.reset();
             }, 300);
         }
 
-        function mostrarNotificacion(mensaje) {
-            notification.textContent = mensaje;
-            notification.classList.remove('hidden');
-            setTimeout(() => notification.classList.add('hidden'), 3000);
-        }
-
-        // --- EVENT LISTENERS ---
-
-        // Listener para el formulario del modal
         enrollmentForm.addEventListener('submit', (e) => {
-            e.preventDefault(); // Evitamos que la página se recargue
-            
-            // Deshabilitamos el botón original del curso
+            e.preventDefault();
             if (currentEnrollButton) {
                 currentEnrollButton.disabled = true;
                 currentEnrollButton.textContent = '¡Inscrito!';
                 currentEnrollButton.classList.remove('bg-cyan-500', 'hover:bg-cyan-600');
                 currentEnrollButton.classList.add('bg-green-600', 'cursor-not-allowed');
             }
-            
             cerrarModal();
-            mostrarNotificacion('¡Felicidades! Tu inscripción ha sido confirmada.');
         });
 
-        // Listeners para cerrar el modal
         cancelButton.addEventListener('click', cerrarModal);
         modal.addEventListener('click', (e) => {
-            // Si se hace clic en el fondo oscuro (el overlay), se cierra el modal
             if (e.target === modal) {
                 cerrarModal();
             }
         });
 
-        // --- EJECUCIÓN INICIAL ---
         window.onload = mostrarEventos;
     </script>
+
 </body>
 </html>
